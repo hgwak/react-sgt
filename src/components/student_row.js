@@ -3,8 +3,6 @@
 import React from 'react';
 
 const StudentRow = (props) => {
-    console.log('Student:', props.student)
-
     const{name, course, grade}=props.student;//es6
 
     return (
