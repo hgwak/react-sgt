@@ -5,10 +5,8 @@ import '../assets/css/app.scss';
 import axios from 'axios';
 import AddStudent from './add_student';
 import Table from './table';
-import studentData from '../data/get_all_students';
-import {randomString} from '../helpers'
+import {formatPostData} from '../helpers'
 
-console.log(randomString());
 
 class App extends Component{
     state={
@@ -33,18 +31,31 @@ class App extends Component{
         }
     }
 
-    addStudent = (student) =>{
-        student.id = randomString();
-        this.setState({
-            students: [...this.state.students, student]
-        });
+    addStudent = async (student) =>{
+        const formattedStudent = formatPostData(student);
+
+        const resp = await axios.post('http://localhost/server/createstudent.php', formattedStudent);
+        
+    
+        // student.id = randomString();
+
+        // //we don't want to falsely show that something was added to the server without confirmation from the server
+        // this.setState({
+        //     students: [...this.state.students, student]
+        // });
     }
 
     async getStudentData(){
         //Call server to get student data
         const resp = await axios.get('http://localhost/server/getstudentlist.php');
         
-        this.setState({students:resp.data.data});
+        console.log(resp);
+
+        if(resp.data.success){
+            this.setState({
+                students:resp.data.data
+            });
+        }
         // axios.get('http://localhost/server/getstudentlist.php').then((response)=>{
         //     this.setState({
         //         students: response.data.data
