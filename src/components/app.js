@@ -40,14 +40,17 @@ class App extends Component{
         });
     }
 
-    getStudentData(){
+    async getStudentData(){
         //Call server to get student data
-        axios.get('http://localhost/server/getstudentlist.php').then((response)=>{
-            this.setState({
-                students: response.data.data
-            });
+        const resp = await axios.get('http://localhost/server/getstudentlist.php');
         
-        });
+        this.setState({students:resp.data.data});
+        // axios.get('http://localhost/server/getstudentlist.php').then((response)=>{
+        //     this.setState({
+        //         students: response.data.data
+        //     });
+        
+        // });
 
         
     }
