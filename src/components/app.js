@@ -17,26 +17,37 @@ class App extends Component{
         this.getStudentData();
     }
 
-    deleteStudent = (id) => {
-        const indexToDelete = this.state.students.findIndex((student) =>{
-            return student.id ===id;
-        });
+    deleteStudent = async(id) => {
+        const formattedID = formatPostData({id:id});//{id} optional can do this because of destructuring
 
-        if(indexToDelete >= 0){
-            const tempStudents = this.state.students.slice();
-            tempStudents.splice(indexToDelete,1);
-            this.setState({
-                students:tempStudents
-            });
-        }
+        await axios.post('/server/deletestudent.php', formattedID);
+
+
+        this.getStudentData();
+
+
+
+
+        // old way to do it
+        // const indexToDelete = this.state.students.findIndex((student) =>{
+        //     return student.id ===id;
+        // });
+
+        // if(indexToDelete >= 0){
+        //     const tempStudents = this.state.students.slice();
+        //     tempStudents.splice(indexToDelete,1);
+        //     this.setState({
+        //         students:tempStudents
+        //     });
+        // }
     }
 
     addStudent = async (student) =>{
         const formattedStudent = formatPostData(student);
 
-        const resp = await axios.post('http://localhost/server/createstudent.php', formattedStudent);
+        await axios.post('/server/createstudent.php', formattedStudent);
         
-    
+        this.getStudentData();
         // student.id = randomString();
 
         // //we don't want to falsely show that something was added to the server without confirmation from the server
@@ -47,15 +58,22 @@ class App extends Component{
 
     async getStudentData(){
         //Call server to get student data
-        const resp = await axios.get('http://localhost/server/getstudentlist.php');
+        const resp = await axios.get('/server/getstudentlist.php');
         
         console.log(resp);
+        this.setState({
+            students: resp.data.data || [] //if resp.data.data is falsey then return empty array
+        })
 
-        if(resp.data.success){
-            this.setState({
-                students:resp.data.data
-            });
-        }
+        // if(resp.data.success){
+        //     this.setState({
+        //         students:resp.data.data
+        //     });
+        // }else{
+        //     this.setState({
+        //         students:[]
+        //     })
+        // }
         // axios.get('http://localhost/server/getstudentlist.php').then((response)=>{
         //     this.setState({
         //         students: response.data.data
