@@ -1,13 +1,17 @@
 //this is functional component because we don't have to worry about updating the state of a row, just rerendering
 
 import React from 'react';
+import {Link} from 'react-router-dom';
+
 
 const StudentRow = (props) => {
     const{name, course, grade, id}=props.student;//es6
 
     return (
         <tr>
-            <td>{name}</td>
+            <td>
+                <Link to={`/student/${id}`}>{name}</Link>
+            </td>
             <td>{course}</td>
             <td>{grade}</td>
             <td className="center">
