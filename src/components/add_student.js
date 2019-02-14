@@ -69,7 +69,6 @@ class AddStudent extends Component{
 
     render(){
         const {name, course, grade, instructor, notes} = this.state;
-        console.log(this.props)
         return (
             <div>
                 <h1 className="center">Add Student</h1>

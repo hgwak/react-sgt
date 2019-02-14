@@ -17,7 +17,7 @@ class App extends Component{
             <div className="container">
                 <Route exact path='/' component={Table}/>
                 <Route path='/add-student' component={AddStudent}/>
-                <Route path='/student:id' component={ViewStudent}/>
+                <Route path='/student/:id' component={ViewStudent}/>
             </div>
         );
     }

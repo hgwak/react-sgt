@@ -27,8 +27,7 @@ class Table extends Component{
     async getStudentData(){
         //Call server to get student data
         const resp = await axios.get('/server/getstudentlist.php');
-        
-        console.log(resp);
+    
         this.setState({
             students: resp.data.data || [] //if resp.data.data is falsey then return empty array
         })
